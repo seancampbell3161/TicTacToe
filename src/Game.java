@@ -17,7 +17,6 @@ public class Game {
 
             int numOfTurns = 1;
             int maximumTurns = 9;
-            boolean isValidMove = true;
             Set<Integer> pastMoves = new HashSet<>();
             System.out.println("Welcome to Tic Tac Toe!");
 
@@ -37,13 +36,13 @@ public class Game {
 
             while(!isWon || !isDraw) {
 
-                boolean b1 = false;
-                while(!b1) {
+                boolean validPlayer1Move = false;
+                while(!validPlayer1Move) {
                     System.out.println("Enter a number for player 1 to play: ");
                     int player1Move = scan.nextInt();
                     if(isOccupied(pastMoves, player1Move)) {
                         board.makeMove(player1, player1Move);
-                        b1 = true;
+                        validPlayer1Move = true;
                     } else {
                         System.out.println("That spot is taken! Choose another.");
                         System.out.println();
@@ -51,6 +50,7 @@ public class Game {
                 }
 
                 numOfTurns++;
+                System.out.println(numOfTurns);
                 if(numOfTurns > maximumTurns) {
                     isDraw = true;
                 }
@@ -66,13 +66,13 @@ public class Game {
                     break;
                 }
 
-                boolean b2 = false;
-                while(!b2) {
+                boolean validPlayer2Move = false;
+                while(!validPlayer2Move) {
                     System.out.println("Enter a number for player 2 to play: ");
                     int player2Move = scan.nextInt();
                     if(isOccupied(pastMoves, player2Move)) {
                         board.makeMove(player2, player2Move);
-                        b2 = true;
+                        validPlayer2Move = true;
                     } else {
                         System.out.println("That spot is taken! Choose another.");
                         System.out.println();
@@ -80,6 +80,7 @@ public class Game {
                 }
 
                 numOfTurns++;
+                System.out.println(numOfTurns);
                 if(numOfTurns > maximumTurns) {
                     isDraw = true;
                 }
@@ -106,6 +107,7 @@ public class Game {
     }
 
     public void checkIfWon(String[][] gameBoard, Player player) {
+        //rows
         if(gameBoard[0][0] == player.playerToken && gameBoard[0][1] == player.playerToken && gameBoard[0][2] ==
                 player.playerToken) {
             isWon = true;
@@ -115,7 +117,22 @@ public class Game {
         } else if (gameBoard[2][0] == player.playerToken && gameBoard[2][1] == player.playerToken && gameBoard[2][2] ==
                 player.playerToken) {
             isWon = true;
-        } else if (gameBoard[0][0] == player.playerToken && gameBoard[1][1] == player.playerToken && gameBoard[2][2] ==
+        }
+
+        // columns
+        else if (gameBoard[0][0] == player.playerToken &&gameBoard[1][0] == player.playerToken && gameBoard[2][0] ==
+                player.playerToken) {
+            isWon = true;
+        } else if (gameBoard[0][1] == player.playerToken &&gameBoard[1][1] == player.playerToken && gameBoard[2][1] ==
+                player.playerToken) {
+            isWon = true;
+        } else if (gameBoard[0][2] == player.playerToken &&gameBoard[1][2] == player.playerToken && gameBoard[2][2] ==
+                player.playerToken) {
+            isWon = true;
+        }
+
+        // diagonals
+        else if (gameBoard[0][0] == player.playerToken && gameBoard[1][1] == player.playerToken && gameBoard[2][2] ==
                 player.playerToken) {
             isWon = true;
         } else if (gameBoard[0][2] == player.playerToken && gameBoard[1][1] == player.playerToken && gameBoard[2][0] ==
