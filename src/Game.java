@@ -1,4 +1,6 @@
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Game {
 
@@ -13,6 +15,10 @@ public class Game {
 
         while(playAgain == "y") {
 
+            int numOfTurns = 1;
+            int maximumTurns = 9;
+            boolean isValidMove = true;
+            Set<Integer> pastMoves = new HashSet<>();
             System.out.println("Welcome to Tic Tac Toe!");
 
             System.out.print("Enter a character for player 1: ");
@@ -30,16 +36,26 @@ public class Game {
 
 
             while(!isWon || !isDraw) {
-                int numOfTurns = 1;
-                System.out.println("Enter a number for player 1 to play: ");
-                board.makeMove(player1, scan.nextInt());
-                numOfTurns++;
-                checkIfWon(board.gameBoard, player1);
 
-                if(numOfTurns == board.gameBoard.length) {
+                boolean b1 = false;
+                while(!b1) {
+                    System.out.println("Enter a number for player 1 to play: ");
+                    int player1Move = scan.nextInt();
+                    if(isOccupied(pastMoves, player1Move)) {
+                        board.makeMove(player1, player1Move);
+                        b1 = true;
+                    } else {
+                        System.out.println("That spot is taken! Choose another.");
+                        System.out.println();
+                    }
+                }
+
+                numOfTurns++;
+                if(numOfTurns > maximumTurns) {
                     isDraw = true;
                 }
 
+                checkIfWon(board.gameBoard, player1);
                 if(isWon) {
                     System.out.println("***************");
                     System.out.println("Player 1 won!");
@@ -50,11 +66,25 @@ public class Game {
                     break;
                 }
 
-                System.out.println("Enter a number for player 2 to play: ");
-                board.makeMove(player2, scan.nextInt());
-                numOfTurns++;
-                checkIfWon(board.gameBoard, player2);
+                boolean b2 = false;
+                while(!b2) {
+                    System.out.println("Enter a number for player 2 to play: ");
+                    int player2Move = scan.nextInt();
+                    if(isOccupied(pastMoves, player2Move)) {
+                        board.makeMove(player2, player2Move);
+                        b2 = true;
+                    } else {
+                        System.out.println("That spot is taken! Choose another.");
+                        System.out.println();
+                    }
+                }
 
+                numOfTurns++;
+                if(numOfTurns > maximumTurns) {
+                    isDraw = true;
+                }
+
+                checkIfWon(board.gameBoard, player2);
                 if(isWon) {
                     System.out.println("***************");
                     System.out.println("Player 2 won!");
@@ -67,7 +97,7 @@ public class Game {
                     break;
                 }
             }
-
+            scan.nextLine();
             System.out.println();
             System.out.println("Play again? y = yes");
             playAgain = scan.next();
@@ -92,6 +122,13 @@ public class Game {
                 player.playerToken) {
             isWon = true;
         }
+    }
+
+    public boolean isOccupied(Set<Integer> pastMoves, int choice) {
+        if(!pastMoves.add(choice)) {
+            return false;
+        }
+        return true;
     }
 
 }

@@ -1,5 +1,6 @@
 public class Board {
 
+
     public String[][] gameBoard = new String[3][3];
     private int placeholder = 1;
 
@@ -22,7 +23,7 @@ public class Board {
 
     public void makeMove(Player player, int spaceChosen) {
 
-        switch(spaceChosen -1 ) {
+        switch(spaceChosen - 1) {
 
             case 0:
                 gameBoard[0][0] = player.playerToken;
@@ -88,7 +89,4 @@ public class Board {
                 break;
         }
     }
-
-
-
 }
