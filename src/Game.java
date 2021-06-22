@@ -7,13 +7,13 @@ public class Game {
     public boolean isOver;
     public boolean isWon;
     public boolean isDraw;
-    public String playAgain = "y";
+    public boolean playAgain = true;
 
     Scanner scan = new Scanner(System.in);
 
     public void run() {
 
-        while(playAgain == "y") {
+        while(playAgain) {
 
             int numOfTurns = 1;
             int maximumTurns = 9;
@@ -27,6 +27,7 @@ public class Game {
             System.out.print("Now enter a character for player 2: ");
             Player player2 = new Player();
             player2.playerToken = scan.next();
+            scan.nextLine();
 
             Board board = new Board();
             board.initBoard();
@@ -38,19 +39,28 @@ public class Game {
 
                 boolean validPlayer1Move = false;
                 while(!validPlayer1Move) {
-                    System.out.println("Enter a number for player 1 to play: ");
-                    int player1Move = scan.nextInt();
-                    if(isOccupied(pastMoves, player1Move)) {
-                        board.makeMove(player1, player1Move);
-                        validPlayer1Move = true;
-                    } else {
-                        System.out.println("That spot is taken! Choose another.");
-                        System.out.println();
+
+                    boolean isNumber = false;
+
+                    while(!isNumber) {
+                        try {
+                            System.out.println("Enter a number for player 1 to play: ");
+                            int player1Move = Integer.valueOf(scan.nextLine());
+                            isNumber = true;
+                            if(isOccupied(pastMoves, player1Move)) {
+                                board.makeMove(player1, player1Move);
+                                validPlayer1Move = true;
+                            } else {
+                                System.out.println("That spot is taken! Choose another.");
+                                System.out.println();
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Not a valid number, please try again.");
+                        }
                     }
                 }
 
                 numOfTurns++;
-                System.out.println(numOfTurns);
                 if(numOfTurns > maximumTurns) {
                     isDraw = true;
                 }
@@ -68,19 +78,28 @@ public class Game {
 
                 boolean validPlayer2Move = false;
                 while(!validPlayer2Move) {
-                    System.out.println("Enter a number for player 2 to play: ");
-                    int player2Move = scan.nextInt();
-                    if(isOccupied(pastMoves, player2Move)) {
-                        board.makeMove(player2, player2Move);
-                        validPlayer2Move = true;
-                    } else {
-                        System.out.println("That spot is taken! Choose another.");
-                        System.out.println();
+
+                    boolean isNumber = false;
+
+                    while(!isNumber) {
+                        try {
+                            System.out.println("Enter a number for player 2 to play: ");
+                            int player2Move = Integer.valueOf(scan.nextLine());
+                            isNumber = true;
+                            if(isOccupied(pastMoves, player2Move)) {
+                                board.makeMove(player2, player2Move);
+                                validPlayer2Move = true;
+                            } else {
+                                System.out.println("That spot is taken! Choose another.");
+                                System.out.println();
+                            }
+                        } catch(NumberFormatException e) {
+                            System.out.println("Not a valid number, please try again.");
+                        }
                     }
                 }
 
                 numOfTurns++;
-                System.out.println(numOfTurns);
                 if(numOfTurns > maximumTurns) {
                     isDraw = true;
                 }
@@ -101,7 +120,8 @@ public class Game {
             scan.nextLine();
             System.out.println();
             System.out.println("Play again? y = yes");
-            playAgain = scan.next();
+            String ui = scan.nextLine().toLowerCase();
+            if(ui != "y") playAgain = false;
         }
 
     }

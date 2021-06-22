@@ -5,4 +5,8 @@ public class GameTest {
         Game game = new Game();
         game.run();
     }
+
+    // NEEDED FIXES
+    // - play again loop
+    // - make sure user input is digit 1 thru 9
 }
