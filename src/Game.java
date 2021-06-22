@@ -8,8 +8,8 @@ public class Game {
     public boolean isWon;
     public boolean isDraw;
     public boolean playAgain = true;
-
     Scanner scan = new Scanner(System.in);
+
 
     public void run() {
 
@@ -46,6 +46,9 @@ public class Game {
                         try {
                             System.out.println("Enter a number for player 1 to play: ");
                             int player1Move = Integer.valueOf(scan.nextLine());
+                            if(player1Move < 1 || player1Move > 9) {
+                                throw new Exception();
+                            }
                             isNumber = true;
                             if(isOccupied(pastMoves, player1Move)) {
                                 board.makeMove(player1, player1Move);
@@ -56,6 +59,8 @@ public class Game {
                             }
                         } catch (NumberFormatException e) {
                             System.out.println("Not a valid number, please try again.");
+                        } catch (Exception e) {
+                            System.out.println("Number must be between 1 - 9.");
                         }
                     }
                 }
@@ -85,6 +90,9 @@ public class Game {
                         try {
                             System.out.println("Enter a number for player 2 to play: ");
                             int player2Move = Integer.valueOf(scan.nextLine());
+                            if(player2Move < 1 || player2Move > 9) {
+                                throw new Exception();
+                            }
                             isNumber = true;
                             if(isOccupied(pastMoves, player2Move)) {
                                 board.makeMove(player2, player2Move);
@@ -95,6 +103,8 @@ public class Game {
                             }
                         } catch(NumberFormatException e) {
                             System.out.println("Not a valid number, please try again.");
+                        } catch(Exception e) {
+                            System.out.println("Number must be between 1 - 9.");
                         }
                     }
                 }
